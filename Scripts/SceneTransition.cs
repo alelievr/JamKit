@@ -17,21 +17,23 @@ public class SceneTransition : MonoBehaviour
 	[HideInInspector]
 	public bool		destroyOnNextLoad = false;
 
+	public static SceneTransition instance;
+
 	bool			loading;
 	string			toLoad;
 
-	void Start()
+	void Awake()
 	{
-		//protection againts multiple SceneTransition components:
-		var objs = FindObjectsOfType< SceneTransition >();
-		
-		foreach (var obj in objs)
-			if (obj != this)
-				obj.destroyOnNextLoad = true;
+		SceneManager.sceneLoaded += OnLoadCallback;
+
+		if (instance != null)
+		{
+			destroyOnNextLoad = true;
+			return ;
+		}
 
 		DontDestroyOnLoad(gameObject);
-
-		SceneManager.sceneLoaded += OnLoadCallback;
+		instance = this;
 	}
 
 	void OnDestroy()

@@ -9,7 +9,7 @@ public class AutoSave
 {
 	static public float		saveTimeout = 60 * 2; //2 mins
 
-	static float			lastSave;
+	static double			lastSave;
 
 	static AutoSave()
 	{
@@ -18,14 +18,16 @@ public class AutoSave
 
 	static void Update()
 	{
-		if (Time.time - lastSave > saveTimeout)
+		if (EditorApplication.timeSinceStartup - lastSave > saveTimeout)
 			Save();
 	}
 
 	static void Save()
 	{
+		if (EditorApplication.isPlaying || EditorApplication.isPaused)
+			return ;
 		EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
 		AssetDatabase.SaveAssets();
-		lastSave = Time.time;
+		lastSave = EditorApplication.timeSinceStartup;
 	}
 }
