@@ -16,6 +16,8 @@ public class SettingsMenu : MonoBehaviour
 	public Slider			volumeSlider;
 	public Dropdown			graphicDropdown;
 	public Dropdown			resolutionDropdown;
+	public Toggle			fullScreenToggle;
+	public Toggle			vSyncToggle;
 
 	Resolution[] 			resolutions;
 
@@ -31,6 +33,9 @@ public class SettingsMenu : MonoBehaviour
 		resolutionDropdown.value = selected;
 
 		resolutionDropdown.RefreshShownValue();
+
+		fullScreenToggle.isOn = Screen.fullScreen;
+		vSyncToggle.isOn = QualitySettings.vSyncCount != 0;
 	}
 
 	public void SetFullScreen(bool fullScreen)
